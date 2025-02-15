@@ -1,8 +1,8 @@
 #!/bin/bash
 
-LOG_DIR="$HOME/macos-health-logs"
+LOG_DIR="$HOME/health_logs"
 mkdir -p "$LOG_DIR"
-LOG_FILE="$LOG_DIR/system_health_$(date +%Y-%m-%d_%H-%M-%S).log"
+LOG_FILE="$LOG_DIR/sys_health_$(date +%Y-%m-%d_%H-%M-%S).log"
 
 # Function to log output
 log_section() {
