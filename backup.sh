@@ -69,7 +69,7 @@ CONFIG_DIRS=(
     ".config/yazi"
     ".config/lazygit"
     ".config/jdtls"
-    ".config/neofetch"
+    ".config/macchina"
 )
 
 # Backup config directories
