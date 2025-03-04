@@ -29,13 +29,13 @@ A set of scripts for backing up and monitoring your macOS development environmen
   - Saves a detailed log file in `~/macos-health-logs/`
 
 - **Rollback Script (Restoration Undo):**
-- Restores system to its pre-restoration state
-- Backs up current configurations before rolling back
-- Supports:
-  - Dotfiles (.zshrc, .gitconfig, etc.)
-  - Config directories (.config/nvim, .ssh, etc.)
-  - Permissions reset for .ssh and .local/bin
-  - Works cross-platform with macOS, Linux, and WS
+  - Restores system to its pre-restoration state
+  - Backs up current configurations before rolling back
+  - Supports:
+    - Dotfiles (.zshrc, .gitconfig, etc.)
+    - Config directories (.config/nvim, .ssh, etc.)
+    - Permissions reset for .ssh and .local/bin
+    - Works cross-platform with macOS, Linux, and WS
 
 ---
 
