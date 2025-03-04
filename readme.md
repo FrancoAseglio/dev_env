@@ -17,6 +17,7 @@ A set of scripts for backing up and monitoring your macOS development environmen
   - Automatic package manager setup on restore
 
 - **System Health Check Script:**
+
   - Checks:
     - Installed and outdated Homebrew casks
     - Large files, empty files, and old files
@@ -27,6 +28,17 @@ A set of scripts for backing up and monitoring your macOS development environmen
     - Security settings (Gatekeeper, SIP, Firewall)
   - Saves a detailed log file in `~/macos-health-logs/`
 
+- **Rollback Script (Restoration Undo):**
+- Restores system to its pre-restoration state
+- Backs up current configurations before rolling back
+- Supports:
+  - Dotfiles (.zshrc, .gitconfig, etc.)
+  - Config directories (.config/nvim, .ssh, etc.)
+  - Permissions reset for .ssh and .local/bin
+  - Works cross-platform with macOS, Linux, and WS
+
+---
+
 ## Prerequisites
 
 - macOS (for backup and health check)
@@ -35,16 +47,9 @@ A set of scripts for backing up and monitoring your macOS development environmen
 - `zip` utility (for backup)
 - `unzip` utility (for restore)
 
+---
+
 ## Usage
-
-### Backup (macOS only)
-
-```bash
-chmod +x backup.sh
-./backup.sh
-```
-
-This will create a zip file named `mac_env_backup_YYYYMMDD_HHMMSS.zip` in your current directory.
 
 ### System Health Check (macOS only)
 
@@ -55,12 +60,32 @@ chmod +x system_health.sh
 
 This will generate a log file in `~/macos-health-logs/` with detailed system health information.
 
+### Backup (macOS only)
+
+```bash
+chmod +x backup.sh
+./backup.sh
+```
+
+This will create a zip file named `mac_env_backup_YYYYMMDD_HHMMSS.zip` in your current directory.
+
 ### Restore (Cross-platform)
 
 ```bash
 chmod +x restore.sh
-./restore.sh <backup_zip_file>
+./restore.sh mac_env_backup_20250304_123456.zip
 ```
+
+### Rollback (Undo a Failed Restoration)
+
+If a restoration introduces issues, you can rollback to the previous state:
+
+```bash
+chmod +x rollback.sh
+./rollback.sh
+```
+
+---
 
 ## Post-Restore Steps
 
@@ -82,3 +107,4 @@ If you encounter issues:
 2. Ensure all required utilities are installed
 3. Verify the backup zip file exists and isn't corrupted
 4. Check available disk space in the destination
+5. Run the rollback script if needed
