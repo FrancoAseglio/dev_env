@@ -65,7 +65,7 @@ CONFIG_DIRS=(
     ".config/nvim"
     ".config/wezterm"
     ".config/bat"
-    ".config/htop"
+    ".config/btop"
     ".config/yazi"
     ".config/lazygit"
     ".config/jdtls"
