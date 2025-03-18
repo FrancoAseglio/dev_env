@@ -68,6 +68,15 @@ setup_package_manager() {
                     return 1
                 fi
             fi
+            # Install PostgreSQL and pgcli if not already installed
+            if ! command -v postgres &> /dev/null; then
+                debug_print "Installing PostgreSQL"
+                brew install postgresql
+            fi
+            if ! command -v pgcli &> /dev/null; then
+                debug_print "Installing pgcli"
+                brew install pgcli
+            fi
             ;;
         ubuntu|debian)
             debug_print "Updating apt package lists"
@@ -75,19 +84,19 @@ setup_package_manager() {
                 debug_print "apt update: $line"
             done
             debug_print "Installing essential packages"
-            sudo apt-get install -y git curl wget zsh neovim 2>&1 | while read -r line; do
+            sudo apt-get install -y git curl wget zsh neovim postgresql pgcli 2>&1 | while read -r line; do
                 debug_print "apt install: $line"
             done
             ;;
         fedora)
             debug_print "Installing essential packages via dnf"
-            sudo dnf install -y git curl wget zsh neovim 2>&1 | while read -r line; do
+            sudo dnf install -y git curl wget zsh neovim postgresql pgcli 2>&1 | while read -r line; do
                 debug_print "dnf install: $line"
             done
             ;;
         arch)
             debug_print "Installing essential packages via pacman"
-            sudo pacman -Syu --noconfirm git curl wget zsh neovim 2>&1 | while read -r line; do
+            sudo pacman -Syu --noconfirm git curl wget zsh neovim postgresql pgcli 2>&1 | while read -r line; do
                 debug_print "pacman install: $line"
             done
             ;;
@@ -98,12 +107,19 @@ setup_package_manager() {
                 return 1
             fi
             debug_print "Installing essential packages via winget"
-            for pkg in "Git.Git" "Microsoft.PowerShell" "Neovim.Neovim"; do
+            for pkg in "Git.Git" "Microsoft.PowerShell" "Neovim.Neovim" "PostgreSQL.PostgreSQL"; do
                 debug_print "Installing $pkg"
                 winget install -e --id "$pkg" 2>&1 | while read -r line; do
                     debug_print "winget install: $line"
                 done
             done
+            # Install pgcli via pip on Windows
+            if command -v pip &> /dev/null; then
+                debug_print "Installing pgcli via pip"
+                pip install pgcli
+            else
+                echo -e "${YELLOW}Warning: pip not found, cannot install pgcli${NC}" >&2
+            fi
             ;;
     esac
 }
@@ -239,6 +255,15 @@ for file in .*; do
     fi
 done
 
+# Ensure proper permissions for PostgreSQL password file
+if [ -f "$HOME/.pgpass" ]; then
+    debug_print "Setting correct permissions for .pgpass"
+    chmod 600 "$HOME/.pgpass"
+fi
+
+# Setup package manager and ensure pgcli is installed
+setup_package_manager "$OS"
+
 # Clean up
 debug_print "Cleaning up temporary directory"
 cd || true
@@ -249,9 +274,11 @@ echo -e "${GREEN}Restoration complete${NC}"
 case "$OS" in
     macos)
         echo -e "${YELLOW}Run: source ~/.zshrc${NC}"
+        echo -e "${YELLOW}PostgreSQL: brew services start postgresql${NC}"
         ;;
     linux*)
         echo -e "${YELLOW}Run: chsh -s $(which zsh)${NC}"
+        echo -e "${YELLOW}PostgreSQL: sudo systemctl start postgresql${NC}"
         ;;
     windows)
         echo -e "${YELLOW}Note: Some paths may need manual adjustment${NC}"

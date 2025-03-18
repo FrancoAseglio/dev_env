@@ -85,6 +85,8 @@ rollback_restoration() {
         "$HOME/.config/tmux"
         "$HOME/.profile"
         "$HOME/.aliases"
+        "$HOME/.config/pgcli"
+        "$HOME/.pgpass"
     )
 
     # Backup existing items before potential restoration
@@ -103,6 +105,7 @@ rollback_restoration() {
     chmod 644 "$HOME/.ssh/id_rsa.pub" 2>/dev/null
     chmod 700 "$HOME/.ssh" 2>/dev/null
     chmod -R 755 "$HOME/.local/bin" 2>/dev/null
+    chmod 600 "$HOME/.pgpass" 2>/dev/null
 
     log "Restoration rollback complete"
     echo -e "${GREEN}Your system has been restored to its pre-restoration state.${NC}"

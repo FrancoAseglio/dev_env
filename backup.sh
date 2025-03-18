@@ -70,6 +70,7 @@ CONFIG_DIRS=(
     ".config/lazygit"
     ".config/jdtls"
     ".config/macchina"
+    ".config/pgcli"
 )
 
 # Backup config directories
@@ -110,6 +111,7 @@ DOTFILES=(
     ".zprofile"
     ".zshenv"
     ".zlogin"
+    ".pgpass"
 )
 
 for file in "${DOTFILES[@]}"; do
