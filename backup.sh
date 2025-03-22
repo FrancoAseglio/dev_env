@@ -69,7 +69,6 @@ CONFIG_DIRS=(
     ".config/yazi"
     ".config/lazygit"
     ".config/jdtls"
-    ".config/macchina"
     ".config/pgcli"
 )
 
